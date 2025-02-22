@@ -5,3 +5,22 @@ h1{
     font-weight: bolder;
     font-style: italic;
 }
+ .my_box{
+    border-width: thick; /*Adjust border width */
+    border-color: black;
+    border-style:dashed;
+    border-radius:initial;
+    text-align: center;
+    width: 200px;          /* Adjust width */
+    height: 100px;         /* Adjust height*/
+ }
+
+ .my_second_box{
+    border-width: thick; /*Adjust border width */
+    border-color: black;
+    border-style:solid;
+    border-radius:initial;
+    text-align: center;
+    width: 200px;          /* Adjust width */
+    height: 100px;         /* Adjust height*/
+ }
