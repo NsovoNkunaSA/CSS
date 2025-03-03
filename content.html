@@ -57,3 +57,6 @@ console.log(getMusicTitlesByYear(tracks));
   2021: ['Levitating']
 }
 */
+if (!Array.isArray(tracks)) {
+    throw new Error("Invalid input: Expected an array of music track objects.");
+  }
