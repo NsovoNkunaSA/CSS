@@ -15,33 +15,22 @@
 </html>
 
 /**
- * Function to group and sort music titles by release year.
- * @param {Array} tracks - Array of music track objects.
- * @returns {Object} - An object with years as keys and sorted arrays of music titles as values.
+ * Groups music track titles by release year and sorts them alphabetically.
+ *
+ * @param {Object[]} tracks - An array of music track objects.
+ * @returns {Object} - An object where the keys are years and values are sorted arrays of track titles.
  */
 function getMusicTitlesByYear(tracks) {
-  if (!Array.isArray(tracks)) {
-    throw new Error("Invalid input: Expected an array of music track objects.");
-  }
-
   const result = {};
 
   for (const track of tracks) {
-    if (
-      typeof track !== "object" ||
-      !track.hasOwnProperty("title") ||
-      !track.hasOwnProperty("year") ||
-      typeof track.title !== "string" ||
-      typeof track.year !== "number" ||
-      isNaN(track.year)
-    ) {
-      throw new Error("Invalid track data: Each track must have a string title and a numeric year.");
+    const { title, year } = track;
+
+    if (!result[year]) {
+      result[year] = [];
     }
 
-    if (!result[track.year]) {
-      result[track.year] = [];
-    }
-    result[track.year].push(track.title);
+    result[year].push(title);
   }
 
   // Sort titles alphabetically for each year
@@ -52,5 +41,19 @@ function getMusicTitlesByYear(tracks) {
   return result;
 }
 
-// Export the function for external use
-module.exports = getMusicTitlesByYear;
+// Predefined input
+const tracks = [
+  { title: "Blinding Lights", artist: "The Weeknd", year: 2020 },
+  { title: "Levitating", artist: "Dua Lipa", year: 2021 },
+  { title: "Save Your Tears", artist: "The Weeknd", year: 2020 },
+];
+
+// Test case
+console.log(getMusicTitlesByYear(tracks));
+
+/* Expected Output:
+{
+  2020: ['Blinding Lights', 'Save Your Tears'],
+  2021: ['Levitating']
+}
+*/
