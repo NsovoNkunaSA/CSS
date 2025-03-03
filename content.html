@@ -19,18 +19,32 @@
  *
  * @param {Object[]} tracks - An array of music track objects.
  * @returns {Object} - An object where the keys are years and values are sorted arrays of track titles.
+ * @throws {Error} - If the input is not an array or contains invalid track objects.
  */
 function getMusicTitlesByYear(tracks) {
+  if (!Array.isArray(tracks)) {
+    throw new Error("Invalid input: Expected an array of music track objects.");
+  }
+
   const result = {};
 
   for (const track of tracks) {
-    const { title, year } = track;
-
-    if (!result[year]) {
-      result[year] = [];
+    if (
+      typeof track !== "object" ||
+      !track.title ||
+      typeof track.title !== "string" ||
+      !track.year ||
+      typeof track.year !== "number" ||
+      isNaN(track.year)
+    ) {
+      throw new Error("Invalid track data: Each track must have a string title and a numeric year.");
     }
 
-    result[year].push(title);
+    if (!result[track.year]) {
+      result[track.year] = [];
+    }
+
+    result[track.year].push(track.title);
   }
 
   // Sort titles alphabetically for each year
@@ -48,8 +62,11 @@ const tracks = [
   { title: "Save Your Tears", artist: "The Weeknd", year: 2020 },
 ];
 
-// Test case
-console.log(getMusicTitlesByYear(tracks));
+try {
+  console.log(getMusicTitlesByYear(tracks));
+} catch (error) {
+  console.error(error.message);
+}
 
 /* Expected Output:
 {
@@ -57,6 +74,17 @@ console.log(getMusicTitlesByYear(tracks));
   2021: ['Levitating']
 }
 */
-if (!Array.isArray(tracks)) {
-    throw new Error("Invalid input: Expected an array of music track objects.");
-  }
+
+// Error Handling Test Cases
+try {
+  console.log(getMusicTitlesByYear("invalid input"));
+} catch (error) {
+  console.error(error.message); // Expected: "Invalid input: Expected an array of music track objects."
+}
+
+try {
+  console.log(getMusicTitlesByYear([{ title: "Song X", artist: "Artist X" }])); 
+} catch (error) {
+  console.error(error.message); // Expected: "Invalid track data: Each track must have a string title and a numeric year."
+}
+
