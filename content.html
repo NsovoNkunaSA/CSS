@@ -13,3 +13,44 @@
         
     </body>
 </html>
+
+/**
+ * Function to group and sort music titles by release year.
+ * @param {Array} tracks - Array of music track objects.
+ * @returns {Object} - An object with years as keys and sorted arrays of music titles as values.
+ */
+function getMusicTitlesByYear(tracks) {
+  if (!Array.isArray(tracks)) {
+    throw new Error("Invalid input: Expected an array of music track objects.");
+  }
+
+  const result = {};
+
+  for (const track of tracks) {
+    if (
+      typeof track !== "object" ||
+      !track.hasOwnProperty("title") ||
+      !track.hasOwnProperty("year") ||
+      typeof track.title !== "string" ||
+      typeof track.year !== "number" ||
+      isNaN(track.year)
+    ) {
+      throw new Error("Invalid track data: Each track must have a string title and a numeric year.");
+    }
+
+    if (!result[track.year]) {
+      result[track.year] = [];
+    }
+    result[track.year].push(track.title);
+  }
+
+  // Sort titles alphabetically for each year
+  for (const year in result) {
+    result[year].sort();
+  }
+
+  return result;
+}
+
+// Export the function for external use
+module.exports = getMusicTitlesByYear;
